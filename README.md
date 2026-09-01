@@ -1,18 +1,6 @@
-Absolutely bro. For GitHub, I’d make the README **clean, professional, and interactive** with badges, clickable sections, workflow, example commands, and collapsible technical details.
 
-Copy the following directly into **`README.md`**:
-
-````markdown
 # 🧬 BACE1 pIC50 Predictor
 
-> **A Python-based QSAR batch prediction tool for predicting BACE1 inhibitor activity from SMILES strings.**
-
-[![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python)](https://www.python.org/)
-[![PaDEL](https://img.shields.io/badge/PaDEL--Descriptor-Molecular%20Descriptors-green)](https://github.com/CBIIT/paDEL-Descriptor)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-black?logo=github)](https://github.com/KumbharAnil/BACE1-PIC50-Predictor)
-
----
 
 ## 📌 Overview
 
