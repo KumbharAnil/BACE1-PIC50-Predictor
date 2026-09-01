@@ -1,26 +1,152 @@
-🧬 BACE1 PIC50 Predictor
+Absolutely bro. For GitHub, I’d make the README **clean, professional, and interactive** with badges, clickable sections, workflow, example commands, and collapsible technical details.
 
-BACE1 QSAR Batch Prediction Tool for predicting pIC50 and IC50 (nM) values of molecules from SMILES strings using PaDEL molecular descriptors.
+Copy the following directly into **`README.md`**:
 
-This project implements a QSAR model based on three molecular descriptors:
+````markdown
+# 🧬 BACE1 pIC50 Predictor
 
-SIC1
-SpMin4_Bhm
-SC-5
+> **A Python-based QSAR batch prediction tool for predicting BACE1 inhibitor activity from SMILES strings.**
 
-The tool reads molecules from a CSV file, calculates the required descriptors using PaDEL-Descriptor through padelpy, applies the QSAR equation, and generates a prediction CSV file.
+[![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python)](https://www.python.org/)
+[![PaDEL](https://img.shields.io/badge/PaDEL--Descriptor-Molecular%20Descriptors-green)](https://github.com/CBIIT/paDEL-Descriptor)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-black?logo=github)](https://github.com/KumbharAnil/BACE1-PIC50-Predictor)
 
-🚀 Features
-🧪 Batch prediction of BACE1 activity
-📂 CSV-based molecular input
-🧬 SMILES-based molecular descriptor calculation
-⚡ Batch processing using configurable chunks
-🛡️ Automatic fallback for problematic molecules
-📊 pIC50 prediction
-🔬 IC50 conversion to nM
-❌ Failed molecules are recorded instead of stopping the entire process
-📁 Automatic CSV output
-📁 Project Structure
+---
+
+## 📌 Overview
+
+**BACE1 pIC50 Predictor** is a QSAR-based computational tool designed to predict the inhibitory activity of molecules against **BACE1 (Beta-secretase 1)**.
+
+The tool accepts molecular **SMILES strings** as input, automatically calculates the required molecular descriptors using **PaDEL-Descriptor**, applies a pre-developed QSAR equation, and generates predicted:
+
+- 🧪 **pIC50**
+- 🔬 **IC50 (nM)**
+- 📊 Molecular descriptor values
+- ✅ Prediction status
+
+The tool supports **batch processing**, automatic error handling, and CSV-based input/output.
+
+---
+
+## 🚀 Key Features
+
+| Feature | Description |
+|---|---|
+| 🧪 BACE1 Prediction | Predict BACE1 inhibitory activity |
+| 📂 CSV Input | Read molecules directly from CSV files |
+| 🧬 SMILES Processing | Calculate molecular descriptors from SMILES |
+| 📊 QSAR Prediction | Predict pIC50 using a linear QSAR equation |
+| 🔬 IC50 Conversion | Convert predicted pIC50 to IC50 in nM |
+| ⚡ Batch Processing | Process molecules in configurable chunks |
+| 🛡️ Error Handling | Isolate problematic molecules automatically |
+| ❌ Failure Tracking | Record molecules that cannot be processed |
+| 📁 CSV Output | Automatically generate prediction results |
+
+---
+
+## 🔬 How It Works
+
+```text
+                    Input CSV
+                        │
+                        ▼
+                Read Molecule IDs
+                        │
+                        ▼
+                  Read SMILES
+                        │
+                        ▼
+             PaDEL-Descriptor
+                        │
+                        ▼
+        ┌───────────────────────────┐
+        │ Molecular Descriptors     │
+        │                           │
+        │ • SIC1                    │
+        │ • SpMin4_Bhm              │
+        │ • SC-5                    │
+        └───────────────────────────┘
+                        │
+                        ▼
+                  QSAR Equation
+                        │
+                        ▼
+                     pIC50
+                        │
+                        ▼
+                  IC50 (nM)
+                        │
+                        ▼
+                Prediction CSV
+````
+
+---
+
+## 🧮 QSAR Model
+
+The predictor uses three molecular descriptors:
+
+* **SIC1**
+* **SpMin4_Bhm**
+* **SC-5**
+
+The QSAR equation is:
+
+$$
+pIC50 =
+-15.13463
++ 13.84656(SIC1)
++ 7.33758(SpMin4\_Bhm)
++ 1.90156(SC-5)
+$$
+
+The corresponding IC50 value is calculated as:
+
+$$
+IC50(M) = 10^{-pIC50}
+$$
+
+and:
+
+$$
+IC50(nM) = IC50(M) \times 10^9
+$$
+
+### Python implementation
+
+```python
+def compute_pic50(sic1, spmin4_bhm, sc5):
+
+    pIC50 = (
+        -15.13463
+        + (13.84656 * sic1)
+        + (7.33758 * spmin4_bhm)
+        + (1.90156 * sc5)
+    )
+
+    IC50_nM = (10 ** (-pIC50)) * 1000000000
+
+    return pIC50, IC50_nM
+```
+
+---
+
+## 🧬 Molecular Descriptors
+
+| Descriptor     | Description                                    |
+| -------------- | ---------------------------------------------- |
+| **SIC1**       | Information-content based molecular descriptor |
+| **SpMin4_Bhm** | Burden/graph-based molecular descriptor        |
+| **SC-5**       | Kier/graph-based molecular descriptor          |
+
+These descriptors are automatically calculated from the molecular SMILES using **PaDEL-Descriptor** through `padelpy`.
+
+---
+
+## 📁 Project Structure
+
+```text
 BACE1-PIC50-Predictor/
 │
 ├── app.py
@@ -32,315 +158,278 @@ BACE1-PIC50-Predictor/
 ├── README.md
 │
 └── .gitignore
+```
 
-🛠️ Requirements
+---
 
-Make sure you have:
+# 🛠️ Installation
 
-Python 3.9+
-Java Runtime Environment (required by PaDEL-Descriptor)
-pip
-Git (optional, for GitHub)
+## 1️⃣ Requirements
 
-Python package:
+Before running the project, make sure you have:
 
+* Python **3.9+**
+* Java Runtime Environment (JRE) or JDK
+* pip
+* Git *(optional)*
+
+Python dependency:
+
+```text
 padelpy
+```
 
-💻 Installation on Windows 11
-1. Clone the repository
+---
+
+## 2️⃣ Clone the Repository
+
+```bash
 git clone https://github.com/KumbharAnil/BACE1-PIC50-Predictor.git
+```
 
+Move into the project directory:
 
-Move into the project:
-
+```bash
 cd BACE1-PIC50-Predictor
+```
 
-2. Create a virtual environment
+---
+
+## 3️⃣ Create a Virtual Environment
+
+```bash
 python -m venv .venv
+```
 
+### Windows PowerShell
 
-Activate it:
-
+```powershell
 .venv\Scripts\Activate.ps1
-
+```
 
 You should see:
 
+```text
 (.venv)
+```
 
+at the beginning of your terminal prompt.
 
-at the beginning of your PowerShell prompt.
+---
 
-3. Install dependencies
+## 4️⃣ Install Dependencies
+
+```bash
 pip install padelpy
+```
 
+Verify the installation:
 
-You can verify the installation:
-
+```bash
 pip show padelpy
+```
 
-☕ Java Requirement
+---
+
+# ☕ Java Requirement
 
 PaDEL-Descriptor requires Java.
 
 Check whether Java is installed:
 
+```bash
 java -version
+```
 
+Example:
 
-If Java is installed, you should see something similar to:
-
+```text
 java version "..."
+```
 
+If Java is not recognized, install a JRE/JDK and make sure Java is available in your system `PATH`.
 
-If the command is not recognized, install a Java Runtime Environment/JDK and make sure Java is available in your Windows PATH.
+---
 
-▶️ Running the Predictor
+# ▶️ Running the Predictor
 
-Make sure your terminal is inside the project directory:
+Activate your virtual environment:
 
-cd BACE1-PIC50-Predictor
-
-
-Activate the virtual environment:
-
+```powershell
 .venv\Scripts\Activate.ps1
+```
 
+Then run:
 
-Run:
-
+```bash
 python app.py
+```
 
+The program will display something similar to:
 
-The program will display:
-
+```text
 ==========================================
      BACE1 QSAR BATCH PREDICTION TOOL
 ==========================================
 
 Loaded ... molecules from ./assets/Inactive Molecule.csv
+
 Processing 1-50 of ...
 Processing 51-100 of ...
-...
-
-
-When processing is complete:
+Processing 101-150 of ...
 
 ==========================================
 Done. ... succeeded, ... failed.
-Results written to ./assets/BACE1_Active_predictions.csv
-==========================================
 
-📥 Input CSV
+Results written to:
+./assets/BACE1_Active_predictions.csv
+==========================================
+```
+
+---
+
+# 📥 Input Dataset
 
 The default input file is:
 
+```text
 assets/Inactive Molecule.csv
+```
 
+The CSV should contain the required columns:
 
-The program expects these columns:
-
+```text
 pub chem SID
 Smile
+```
 
+### Example
 
-Important: The current Python code uses the exact column name "Smile " with a trailing space. If your CSV contains "Smile" without the trailing space, change:
-
-SMILES_COLUMN = "Smile "
-
-
-to:
-
-SMILES_COLUMN = "Smile"
-
-
-The tool automatically checks whether the required columns exist and displays the detected column names if they are missing.
-
-🧪 Example Input
-
-Your CSV can look like:
-
-pub chem SID,Smile 
+```csv
+pub chem SID,Smile
 Molecule_001,CCO
 Molecule_002,CC(C)O
 Molecule_003,c1ccccc1
+```
 
+> ⚠️ **Important:** The current configuration uses the exact column name `Smile ` with a trailing space.
 
-The SMILES strings are used to calculate molecular descriptors.
+If your CSV contains:
 
-🧮 QSAR Model
+```text
+Smile
+```
 
-The model calculates pIC50 using the following equation:
+instead of:
 
-pIC50 =
--15.13463
-+ 13.84656 × SIC1
-+ 7.33758 × SpMin4_Bhm
-+ 1.90156 × SC-5
+```text
+Smile 
+```
 
+change:
 
-In Python:
+```python
+SMILES_COLUMN = "Smile "
+```
 
-def compute_pic50(sic1, spmin4_bhm, sc5):
-    pIC50 = (
-        -15.13463
-        + (13.84656 * sic1)
-        + (7.33758 * spmin4_bhm)
-        + (1.90156 * sc5)
-    )
+to:
 
-    IC50_nM = (10 ** (-pIC50)) * 1000000000
+```python
+SMILES_COLUMN = "Smile"
+```
 
-    return pIC50, IC50_nM
+Column names must match the configuration exactly.
 
-🔬 Molecular Descriptors
+---
 
-The predictor uses three PaDEL descriptors:
-
-Descriptor	Description
-SIC1	Information-content based molecular descriptor
-SpMin4_Bhm	Burden/graph-based molecular descriptor
-SC-5	Kier/graph-based molecular descriptor
-
-These descriptors are extracted automatically from each molecule's SMILES representation.
-
-📤 Output
+# 📤 Output
 
 The prediction file is generated at:
 
+```text
 assets/BACE1_Active_predictions.csv
-
+```
 
 The output contains:
 
-Column	Description
-ID	Molecule identifier
-SMILES	Molecular SMILES
-SIC1	Calculated SIC1 descriptor
-SpMin4_Bhm	Calculated SpMin4_Bhm descriptor
-SC-5	Calculated SC-5 descriptor
-pIC50	Predicted pIC50
-IC50_nM	Predicted IC50 in nanomolar
-status	Prediction status
+| Column       | Description                      |
+| ------------ | -------------------------------- |
+| `ID`         | Molecule identifier              |
+| `SMILES`     | Molecular SMILES                 |
+| `SIC1`       | Calculated SIC1 descriptor       |
+| `SpMin4_Bhm` | Calculated SpMin4_Bhm descriptor |
+| `SC-5`       | Calculated SC-5 descriptor       |
+| `pIC50`      | Predicted pIC50                  |
+| `IC50_nM`    | Predicted IC50 in nanomolar      |
+| `status`     | Prediction status                |
 
-Example:
+### Example
 
+```csv
 ID,SMILES,SIC1,SpMin4_Bhm,SC-5,pIC50,IC50_nM,status
 Molecule_001,CCO,...,...,...,...,...,OK
+```
 
-⚡ Batch Processing
+---
 
-The program processes molecules in chunks:
+# ⚡ Batch Processing
 
+The predictor processes molecules in configurable chunks.
+
+Default:
+
+```python
 CHUNK_SIZE = 50
+```
 
+This means 50 molecules are processed at a time.
 
-This means molecules are processed in groups of 50.
+You can increase or decrease the value:
 
-You can change this value:
-
+```python
 CHUNK_SIZE = 100
+```
 
+Larger datasets can therefore be processed without attempting to calculate all descriptors in a single operation.
 
-for 100 molecules per batch.
+---
 
-🛡️ Error Handling
+# 🛡️ Error Handling
 
-The program uses a two-stage processing strategy.
+The predictor uses a **two-stage processing strategy**.
 
-Stage 1 — Batch processing
+### Stage 1 — Batch Processing
 
-It first attempts to process a complete chunk:
+The program first attempts to process an entire chunk:
 
-desc_list = from_smiles(smiles_list, fingerprints=False)
+```python
+desc_list = from_smiles(
+    smiles_list,
+    fingerprints=False
+)
+```
 
-Stage 2 — Individual processing
+### Stage 2 — Individual Processing
 
-If the batch fails, the program automatically processes molecules individually.
+If the complete batch fails, the program automatically attempts to process molecules individually.
 
-This allows problematic SMILES strings to be isolated.
+This helps isolate problematic SMILES strings.
 
-Failed molecules are written to the output file with:
+Instead of stopping the complete prediction process, failed molecules are recorded with:
 
+```text
 status = FAILED: ...
+```
 
+Therefore, a problematic molecule does not stop the entire dataset from being processed.
 
-Therefore, one problematic molecule does not stop the entire prediction run.
+---
 
-🔄 Workflow
-             Input CSV
-                 │
-                 ▼
-          Read molecule IDs
-                 │
-                 ▼
-          Read SMILES strings
-                 │
-                 ▼
-       PaDEL Molecular Descriptors
-                 │
-                 ▼
-        ┌───────────────────┐
-        │ SIC1              │
-        │ SpMin4_Bhm        │
-        │ SC-5              │
-        └───────────────────┘
-                 │
-                 ▼
-          QSAR Equation
-                 │
-                 ▼
-             pIC50
-                 │
-                 ▼
-           IC50 (nM)
-                 │
-                 ▼
-       Output Prediction CSV
+# 🔧 Configuration
 
-📊 pIC50 to IC50 Conversion
+The main configuration variables are located near the beginning of `app.py`.
 
-The program converts pIC50 into IC50 in nanomolar:
-
-IC50_nM = (10 ** (-pIC50)) * 1000000000
-
-
-This is equivalent to:
-
-IC50(M) = 10^(-pIC50)
-
-IC50(nM) = IC50(M) × 10^9
-
-🧑‍💻 Complete Usage Example
-
-From PowerShell:
-
-cd "C:\Users\Anil\OneDrive\Desktop\ProjectsDraft\Project_Data"
-
-
-Activate the environment:
-
-.venv\Scripts\Activate.ps1
-
-
-Install the dependency:
-
-pip install padelpy
-
-
-Run the predictor:
-
-python app.py
-
-
-Check the generated result:
-
-Get-Content ".\assets\BACE1_Active_predictions.csv"
-
-🔧 Configuration
-
-The main configuration variables are located near the beginning of app.py:
-
+```python
 INPUT_CSV = "./assets/Inactive Molecule.csv"
 
 ID_COLUMN = "pub chem SID"
@@ -350,72 +439,257 @@ SMILES_COLUMN = "Smile "
 OUTPUT_CSV = "./assets/BACE1_Active_predictions.csv"
 
 CHUNK_SIZE = 50
-
+```
 
 You can modify these values according to your dataset.
 
-For example:
+### Example
 
+```python
 INPUT_CSV = "./assets/my_molecules.csv"
+
 OUTPUT_CSV = "./assets/my_predictions.csv"
+```
 
-⚠️ Important Notes
-SMILES column name
+---
 
-CSV column names must exactly match the values configured in:
+# 🧪 Complete Example
 
-ID_COLUMN
-SMILES_COLUMN
+### Windows PowerShell
 
+```powershell
+cd "C:\Users\Anil\OneDrive\Desktop\ProjectsDraft\Project_Data"
+```
 
-Pay particular attention to spaces in column names.
+Activate the environment:
 
-Virtual environment
+```powershell
+.venv\Scripts\Activate.ps1
+```
 
-Do not upload .venv/ to GitHub.
+Install the dependency:
 
-It is already recommended to exclude it through .gitignore.
+```powershell
+pip install padelpy
+```
 
-Large datasets
+Run the predictor:
 
-Avoid committing extremely large datasets or generated files directly to GitHub. Consider Git LFS or external data storage for very large files.
-
-Scientific interpretation
-
-The predicted pIC50/IC50 values are QSAR model predictions, not experimental measurements. Their reliability depends on the applicability domain, training data, descriptor calculation, and validation of the underlying model.
-
-🧪 Example Command
-
-Once everything is installed:
-
+```powershell
 python app.py
+```
 
+View the generated output:
 
-That's all you need to run the batch predictor.
+```powershell
+Get-Content ".\assets\BACE1_Active_predictions.csv"
+```
 
-📌 Future Improvements
+---
 
-Potential extensions include:
+# 📊 Prediction Workflow
 
-🖥️ Web interface using Streamlit
-📊 Interactive prediction dashboard
-📈 Visualization of predicted activity
-🧬 Molecular structure visualization
-📁 Drag-and-drop CSV upload
-📊 Prediction statistics
-🔍 Molecule filtering
-📥 Downloadable prediction reports
-🧪 Additional QSAR models
-🤖 Machine-learning model comparison
-📈 Model validation and performance metrics
-👨‍🔬 Project
+```text
+SMILES
+  │
+  ▼
+PaDEL-Descriptor
+  │
+  ├── SIC1
+  ├── SpMin4_Bhm
+  └── SC-5
+        │
+        ▼
+   QSAR Equation
+        │
+        ▼
+      pIC50
+        │
+        ▼
+     IC50 (nM)
+```
 
-BACE1 PIC50 Predictor
+---
 
-Developed for computational analysis and QSAR-based prediction of BACE1 molecular activity.
+# 📌 Scientific Interpretation
 
-⭐ Support
+The generated pIC50 and IC50 values are **computational QSAR predictions** and should not be interpreted as experimental measurements.
+
+Prediction reliability depends on factors including:
+
+* Training dataset quality
+* Descriptor calculation
+* Model validation
+* Applicability domain
+* Molecular similarity to the training compounds
+* Chemical space represented by the model
+
+Predictions outside the model's applicability domain should therefore be interpreted cautiously.
+
+---
+
+# ⚠️ Important Notes
+
+### SMILES Column
+
+Make sure the configured SMILES column exactly matches your CSV.
+
+```python
+SMILES_COLUMN = "Smile "
+```
+
+and:
+
+```python
+SMILES_COLUMN = "Smile"
+```
+
+are treated as different column names.
+
+---
+
+### Virtual Environment
+
+Do **not** upload `.venv/` to GitHub.
+
+Add it to `.gitignore`:
+
+```text
+.venv/
+__pycache__/
+*.pyc
+```
+
+---
+
+### Large Datasets
+
+Avoid committing extremely large datasets or generated prediction files directly to GitHub.
+
+For large datasets, consider:
+
+* Git LFS
+* External data storage
+* Releasing datasets separately
+
+---
+
+# 🔮 Future Improvements
+
+The project can be extended with:
+
+* 🖥️ Streamlit web interface
+* 📊 Interactive prediction dashboard
+* 📈 Activity visualization
+* 🧬 Molecular structure visualization
+* 📁 Drag-and-drop CSV upload
+* 📊 Prediction statistics
+* 🔍 Molecule filtering
+* 📥 Downloadable prediction reports
+* 🧪 Additional QSAR models
+* 🤖 Machine-learning model comparison
+* 📈 Model validation metrics
+* 🧠 Applicability-domain visualization
+
+---
+
+# 🤝 Contributing
+
+Contributions, suggestions, and improvements are welcome.
+
+To contribute:
+
+```bash
+git fork
+```
+
+Create a new branch:
+
+```bash
+git checkout -b feature/new-feature
+```
+
+Commit your changes:
+
+```bash
+git add .
+git commit -m "Add new feature"
+```
+
+Push the branch:
+
+```bash
+git push origin feature/new-feature
+```
+
+Then open a Pull Request.
+
+---
+
+# 📚 Technologies Used
+
+| Technology          | Purpose                          |
+| ------------------- | -------------------------------- |
+| 🐍 Python           | Core programming                 |
+| ☕ Java              | Runtime for PaDEL                |
+| 🧬 PaDEL-Descriptor | Molecular descriptor calculation |
+| 📦 padelpy          | Python interface for PaDEL       |
+| 📄 CSV              | Dataset and prediction storage   |
+| 🧪 QSAR             | Molecular activity prediction    |
+
+---
+
+# 👨‍🔬 Project
+
+## BACE1 pIC50 Predictor
+
+A computational drug-discovery project implementing a **QSAR-based batch prediction workflow for BACE1 inhibitory activity**.
+
+The project demonstrates the integration of:
+
+```text
+SMILES
+   ↓
+Molecular Descriptors
+   ↓
+QSAR Model
+   ↓
+pIC50 Prediction
+   ↓
+IC50 Prediction
+```
+
+---
+
+# ⭐ Support
 
 If you find this project useful, consider giving the repository a ⭐ on GitHub.
 
-Repository: KumbharAnil/BACE1-PIC50-Predictor
+**Repository:**
+
+[KumbharAnil/BACE1-PIC50-Predictor](https://github.com/KumbharAnil/BACE1-PIC50-Predictor)
+
+---
+
+## 📜 Disclaimer
+
+This software is intended for **research and educational purposes**.
+
+The predictions generated by this tool are computational estimates from a QSAR model and should not be considered experimental BACE1 activity measurements or used as a substitute for experimental validation.
+
+---
+
+<p align="center">
+
+🧬 <b>BACE1 pIC50 Predictor</b>
+
+<br>
+
+<sub>QSAR • Molecular Descriptors • Computational Drug Discovery</sub>
+
+</p>
+```
+
+### One small recommendation
+
+For your GitHub repository, I would **not include your personal Windows path** (`C:\Users\Anil\...`) in the final README. I replaced the example with a generic project path above. Also, if `BACE1_Active_predictions.csv` is a generated output rather than essential input data, I'd consider **not committing it** and instead showing a small example output. That makes the repository look more like a proper research/software project.
